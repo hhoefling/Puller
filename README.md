@@ -1,5 +1,5 @@
 # Puller
-Mqtt Puller für openWB
+Mqtt Puller für openWB_Lite (und original openWB)
 
 Diese Project stellt eine Hilfsfunktion bereit die beim testen der openWB[_lite] verwendet werden kann.
 Sie dient dazu das die zu testende OpenWB teilweise einer Master-OpenWB folgt, statt alles selbst zu erledigen.
