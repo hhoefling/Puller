@@ -4,20 +4,25 @@ Mqtt Puller für openWB_Lite (und original openWB)
 Diese Project stellt eine Hilfsfunktion bereit die beim testen der openWB[_lite] verwendet werden kann.
 Sie dient dazu das die zu testende OpenWB teilweise einer Master-OpenWB folgt, statt alles selbst zu erledigen.
 Bei den EVU/WR/BAT Modulen ginge das ja, aber ein Angeschlossenen Auto und den Ladeleistungs-Zähler der original Wallbox kann man nicht so einfach abfragen.
+Das Module liegt bewust ausserhalb des openWB Verzeichnisbaumes. Auf diese Weise wird es bei Updates der openWB nicht entfernt und kann auch mit der Original openWB Software zusammen benutzt werden.
 
-Vorgehen
+Vorgehen:
 
-Bei der zu steuernden openWB (client) beim der Ladepunkten folgendes Einstellen
+Installation in /var/www/html/puller   ( nicht /var/www/html/openWB/puller ) auf der zu steuernden openWB (aka Client)
+
+Bei der zu steuernden openWB (Client) unter Ladepunkte folgendes Einstellen:
 LP1 
 - Anbindung: MQTT
 - Ladeleistungmodul: HTTP
-- URl-Strom Phase 3: http://192.168.208.61/puller/puller.php?retwith=lla3&pullfrom=192.168.208.64&pull=lp1,ll1,soc1,evu,wr1,bat,lp2,ll2,soc2
+- URl-Strom-Phase3: http://192.168.x.x/puller/puller.php?retwith=lla3&pullfrom=192.168.y.y&pull=lp1,ll1,soc1,evu,wr1,bat,lp2,ll2,soc2
 
 Die Parameter bedeuten:
--  http://192.168.208.61/puller/puller.php Dort ist das Script abgelegt. Es muss auf dem "Clienten"' installiert werden.
+-  http://192.168.x.x/puller/puller.php Dort ist das Script abgelegt. Es muss auf dem "Clienten"' installiert werden.
 -  retwith=lla3     Liefere den bisherigen Ramdiskwert von lla3 als Returnwert des main.sh um die Daten die per MQTT geholt werden nicht zu verfälschen
--  pullfrom=192.168.208.64  IP Adresse der "Master" openWB, also die Quelle der Daten
+-  pullfrom=192.168.y.y  IP Adresse der "Master" openWB, also die Quelle der MQTT-Daten
 -  pull=lp1,ll1,soc1,lp2,ll2,soc2,evu,wr1,bat Liste von Modulen die unterstütz werden sollen. Hier alle.
+
+Bei Änderungen an der Modulkonfiguration wird vom Daemon (puller.py) automatisch die neue Konfiguration eingelesen. (openwb.conf)
 
 Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen werden, bekommen Ihre Daten per Subcrition aus dem MQTT des Masters
 Hierbei werden alle Werte an das jeweilig /set/ topic gesendet.
