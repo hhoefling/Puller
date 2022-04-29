@@ -147,7 +147,7 @@ function getopenwbconfig($fn)
     }
 
     
-    echo "";   // nix
+    echo "0";   // nix
 }
 
 
