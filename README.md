@@ -10,22 +10,22 @@ Vorgehen:
 
 Installation in /var/www/html/puller   ( nicht /var/www/html/openWB/puller ) auf der zu steuernden openWB (aka Client)
 
-Bei der zu steuernden openWB (Client) unter Ladepunkte folgendes Einstellen:
-LP1 
-- Anbindung: MQTT
-- Ladeleistungmodul: HTTP
-- URl-Strom-Phase3: http://192.168.x.x/puller/puller.php?retwith=lla3&pullfrom=192.168.y.y&pull=lp1,ll1,soc1,evu,wr1,bat,lp2,ll2,soc2
+Bei der zu steuerernden openWB (Client) ist folgendes einzustellen:
+
+**Smarthome->Verbaucher 1**
+
+- Name: Puller
+- Anbindung: HTTP-Abfrage
+- URl Leistung: http://192.168.x.x/puller/puller.php?pullfrom=192.168.y.y&pull=lp1,ll1,soc1,evu,wr1,bat,lp2,ll2,soc2
+- URL Zählerstand: http://url   (unbenutzt)
 
 Die Parameter bedeuten:
 -  http://192.168.x.x/puller/puller.php Dort ist das Script abgelegt. Es muss auf dem "Clienten"' installiert werden.
--  retwith=lla3     Liefere den bisherigen Ramdiskwert von lla3 als Returnwert des main.sh um die Daten die per MQTT geholt werden nicht zu verfälschen
 -  pullfrom=192.168.y.y  IP Adresse der "Master" openWB, also die Quelle der MQTT-Daten
 -  pull=lp1,ll1,soc1,lp2,ll2,soc2,evu,wr1,bat Liste von Modulen die unterstütz werden sollen. Hier alle.
 
 Bei Änderungen an der Modulkonfiguration wird vom Daemon (puller.py) automatisch die neue Konfiguration eingelesen. (openwb.conf)
-
-Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen werden, bekommen Ihre Daten per Subcrition aus dem MQTT des Masters
-Hierbei werden alle Werte an das jeweilig /set/ topic gesendet.
+Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen ihre Daten per Subcrition aus dem MQTT des Masters sofern die Module in der Kommandozueile von puller.php mit aufgerzählt und damit freigegeben wurden. Hierbei werden alle Werte an das jeweilig /set/ topic gesendet.
 ```
 
 	lp1 
