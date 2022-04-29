@@ -47,21 +47,21 @@ function getopenwbconfig($fn)
 		$msg = $e->getMessage();
 		logf("$msg");
 	}	
-    if ($debug>1) 
+    if ($debug>2) 
        logf( print_r($settingsArray, true) );
     return $settingsArray;
 }
 
 
 
- $retwith=  ( isset($_GET['retwith']) ? escapeshellcmd($_GET['retwith']) : 'lla3'); 
+ 
  $pullfrom= ( isset($_GET['pullfrom']) ? escapeshellarg($_GET['pullfrom']) : ''); 
  $pull= ( isset($_GET['pull']) ? escapeshellcmd($_GET['pull']) : ''); 
  $myConfigFile = $_SERVER['DOCUMENT_ROOT'].'/openWB/openwb.conf';
  $settingsArray = getopenwbconfig($myConfigFile);
  $debug=$settingsArray['debug'];
  
- if($retwith>'')
+ if($pullfrom>'')
  {
     header('Content-Type: text/plain');
  
@@ -69,7 +69,7 @@ function getopenwbconfig($fn)
     $mods=[];
     $mods['lp1']=0;
     $mods['lp2']=0;
-    $mods['ll1']=1;	// da hängt der puller per html dran
+    $mods['ll1']=0;
     $mods['ll2']=0;
     $mods['soc1']=0;
     $mods['soc2']=0;
@@ -83,7 +83,7 @@ function getopenwbconfig($fn)
     if ($debug>2) 
         logf( print_r($mods,true) );
 
-    logf("retwith:$retwith pullfrom:$pullfrom pull:$pull");
+    logf("pullfrom:$pullfrom pull:$pull");
      if( $settingsArray['lastmanagement'] > 0 )
      {
       if( $mods['lp2']  &&   $settingsArray['evsecons1'] != 'mqttevse' ) $mods['lp2']=0;  
@@ -97,7 +97,7 @@ function getopenwbconfig($fn)
      }
      if( $mods['soc1'] &&   $settingsArray['socmodul'] != 'soc_mqtt' ) $mods['soc1']=0;
      if( $mods['lp1']  &&   $settingsArray['evsecon'] != 'mqttevse' ) $mods['lp1']=0;
-     // imemer drin da hier der puller dranghängt if( $mods['ll1']  &&   $settingsArray['ladeleistungmodul'] != 'httpll' ) $mods['ll1']=0;
+     if( $mods['ll1']  &&   $settingsArray['ladeleistungmodul'] != 'mqttll' ) $mods['ll1']=0;
      if( $mods['evu']  &&   $settingsArray['wattbezugmodul'] != 'bezug_mqtt' ) $mods['evu']=0;
      if( $mods['wr1']  &&   $settingsArray['pvwattmodul'] != 'wr_mqtt' ) $mods['wr1']=0;
      if( $mods['wr2']  &&   $settingsArray['pvwattmodul2'] != 'wr_mqtt2' ) $mods['wr2']=0;
@@ -121,7 +121,7 @@ function getopenwbconfig($fn)
            logf(" no activ puller, start one");
             unset($output);
             exec("sudo -u pi python3 ./puller.py $pullfrom >/var/www/html/openWB/ramdisk/puller.log 2>&1 &", $output, $retval);
-            if ($debug>1) 
+            if ($debug>2) 
                 logf(print_r($output,true));
         } else
         {
@@ -146,8 +146,8 @@ function getopenwbconfig($fn)
         }
     }
 
-    $x  = file_get_contents("/var/www/html/openWB/ramdisk/$retwith");
-    echo "$x";
+    
+    echo "";   // nix
 }
 
 
