@@ -12,7 +12,7 @@ Installation in /var/www/html/puller   ( nicht /var/www/html/openWB/puller ) auf
 
 Bei der zu steuerernden openWB (Client) ist folgendes einzustellen:
 
-**Smarthome->Verbaucher 1
+**Smarthome->Verbaucher 1**
 
 - Name: Puller
 - Anbindung: HTTP-Abfrage
