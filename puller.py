@@ -90,6 +90,7 @@ class Configfile:
 
 print('los gehts.')
 
+debug=0
 innerloop=True
 outerloop=True
 modules=[]
@@ -97,13 +98,14 @@ C = Configfile('/var/www/html/openWB/openwb.conf')
 
 
 def getmodules():
-	global modules 
+	global modules, debug 
 	# check if any module is mqtt
 	print(  'ev:' , C.readval('evsecon'))
 	modules=[]
+	debug=int(C.readval('debug'))
 	if C.readval('evsecon') == 'mqttevse':
 		modules.append('ev1')
-	if C.readval('ladeleistungmodul') == 'httpll':    # iimmmer dabei, hier haengt der puller dran
+	if C.readval('ladeleistungmodul') == 'mqttll':   
 		modules.append('evll1')
 	if C.readval('socmodul') == 'soc_mqtt':
 		modules.append('evsoc1')
@@ -214,10 +216,11 @@ def on_subconnect(client, userdata, flags, rc):
 		client.subscribe(s[0], 0)
 
 def handled(src, dst):
-    global pubclient,topic,payload
+    global pubclient,topic,payload,debug
     if ( src in topic ):
        #print (time.ctime() + ': ' , topic, '=[', payload, '] -> handled ->',dst)
-       print (time.ctime() + ': ' , topic, '=[', payload, '] -> handled')
+       if( debug>1):
+           print (time.ctime() + ': ' , topic, '=[', payload, '] -> handled')
        pubclient.publish(dst, payload, qos=0, retain=True)
        return True
     else:
@@ -227,7 +230,7 @@ def handled(src, dst):
 # handle each set topic
 def on_submessage(client, userdata, msg):
     # log all messages before any error forces this process to die
-    global C, innerloop, pubclient,topic,payload
+    global C, innerloop, pubclient,topic,payload,debug
     topic=(str(msg.topic))
     payload=str(msg.payload.decode("utf-8"))
    # print ('['+topic+']=[', payload,']')
@@ -269,7 +272,8 @@ def on_submessage(client, userdata, msg):
     elif handled( "openWB/lp/1/ChargePointEnabled" ,"openWB/set/lp/1/ChargePointEnabled"):
        pubclient.loop(timeout=2.0)
     elif ( "openWB/lp/1/HzFrequenz" in msg.topic) and (float(msg.payload) >= 0 and float(msg.payload) <= 80):
-          print (time.ctime() + ': ', topic, ' ', payload, ' -> publish to ramdisk')
+          if( debug>1):
+              print (time.ctime() + ': ', topic, ' ', payload, ' -> publish to ramdisk')
           f = open('/var/www/html/openWB/ramdisk/llhz', 'w')
           f.write(msg.payload.decode("utf-8"))
           f.close()
@@ -342,7 +346,8 @@ def on_submessage(client, userdata, msg):
          #pubclient.publish("openWB/pv/W", msg.payload.decode("utf-8"), qos=0, retain=True)
          pubclient.publish("openWB/set/pv/1/W",  str(pvwatt), qos=0, retain=True)
          pubclient.loop(timeout=2.0)
-         print (time.ctime() + ': ', topic, ' ', payload, ' -> handled as:', str(pvwatt) )
+         if( debug>1):
+            print (time.ctime() + ': ', topic, ' ', payload, ' -> handled as:', str(pvwatt) )
          
     elif (topic == "openWB/pv/MonthlyYieldKwh"):
         if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
@@ -351,7 +356,8 @@ def on_submessage(client, userdata, msg):
             f.close()
             pubclient.publish(topic,  str(payload), qos=0, retain=True)
             pubclient.loop(timeout=2.0)
-            print (time.ctime() + ': ', topic, ' ', payload, ' -> handled mqtt & Ramdisk' )
+            if( debug>1):
+               print (time.ctime() + ': ', topic, ' ', payload, ' -> handled mqtt & Ramdisk' )
     elif (msg.topic == "openWB/pv/YearlyYieldKwh"):
         if (float(msg.payload) >= 0 and float(msg.payload) <= 10000000000):
             f = open('/var/www/html/openWB/ramdisk/yearly_pvkwhk', 'w')
@@ -359,7 +365,8 @@ def on_submessage(client, userdata, msg):
             f.close()
             pubclient.publish(topic,  str(payload), qos=0, retain=True)
             pubclient.loop(timeout=2.0)
-            print (time.ctime() + ': ', topic, ' ', payload, ' -> handled mqtt & Ramdisk' )
+            if( debug>1):
+                print (time.ctime() + ': ', topic, ' ', payload, ' -> handled mqtt & Ramdisk' )
     #
     # EVU  Module
     #
@@ -395,11 +402,14 @@ subclient.on_disconnect = on_subdisconnect
 
 def main():
 
+	global debug
 	global innerloop
 	global outerloop
 	outerloop=True
 	while outerloop:
 		C.read()
+		debug=int(C.readval('debug'))
+		print('debug:' , str(debug) )
 		srcip=str(sys.argv[1])
 		# srcip=C.readval('mqtt_pullerip')
 		print('src ip:' , srcip)
