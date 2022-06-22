@@ -31,9 +31,11 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 	lp1 
 		openWB/lp/1/boolPlugStat   -> openWB/set/lp/1/plugStat
 		openWB/lp/1/boolChargeStat -> openWB/set/lp/1/chargeStat
+		Beim änderungen an diesen Topics des Masters wird im Clienten der faultstate zurückgesetzt
 	lp2
 		openWB/lp/2/boolPlugStat   -> openWB/set/lp/2/plugStat
 		openWB/lp/2/boolChargeStat -> openWB/set/lp/2/chargeStat
+		Beim änderungen an diesen Topics des Masters wird im Clienten der faultstate zurückgesetzt
 	ll1
 		openWB/lp/1/ChargePointEnabled  -> openWB/set/lp/1/ChargePointEnabled
 		openWB/lp/1/W 		-> openWB/set/lp/1/W
