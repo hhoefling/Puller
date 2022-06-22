@@ -243,12 +243,20 @@ def on_submessage(client, userdata, msg):
     #  LP1 Module
     #
     elif  handled("openWB/lp/1/boolPlugStat","openWB/set/lp/1/plugStat"):
+       pubclient.publish("openWB/set/lp/1/faultState", "0", qos=0, retain=false)   
+       pubclient.publish("openWB/set/lp/1/faultStr", "Kein Fehler", qos=0, retain=false)   
        pubclient.loop(timeout=2.0)
     elif handled("openWB/lp/1/boolChargeStat","openWB/set/lp/1/chargeStat"):
+       pubclient.publish("openWB/set/lp/1/faultState", "0", qos=0, retain=false)   
+       pubclient.publish("openWB/set/lp/1/faultStr", "Kein Fehler", qos=0, retain=false)   
        pubclient.loop(timeout=2.0)
     elif  handled("openWB/lp/2/boolPlugStat","openWB/set/lp/2/plugStat"):
+       pubclient.publish("openWB/set/lp/2/faultState", "0", qos=0, retain=false)   
+       pubclient.publish("openWB/set/lp/2/faultStr", "Kein Fehler", qos=0, retain=false)   
        pubclient.loop(timeout=2.0)
     elif handled("openWB/lp/2/boolChargeStat","openWB/set/lp/2/chargeStat"):
+       pubclient.publish("openWB/set/lp/2/faultState", "0", qos=0, retain=false)   
+       pubclient.publish("openWB/set/lp/2/faultStr", "Kein Fehler", qos=0, retain=false)   
        pubclient.loop(timeout=2.0)
     #
     # LP1 Ladeleistung
