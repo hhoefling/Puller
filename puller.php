@@ -16,6 +16,15 @@ function getopenwbconfig($fn)
   
 // prepare key/value array
     $settingsArray = [];
+    $settingsArray['socmodul']='';
+    $settingsArray['evsecon']='';
+    $settingsArray['ladeleistungmodul']='';
+    $settingsArray['wattbezugmodul']='';
+    $settingsArray['pvwattmodul']='';
+    $settingsArray['pvwattmodul2']='';
+    $settingsArray['speichermodul']='';
+  
+  
     try {
 		  if ( !file_exists($fn) ) {
 		  	throw new Exception('Konfigurationsdatei nicht gefunden.');
