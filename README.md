@@ -58,7 +58,7 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 		openWB/lp/2/APhase2 -> openWB/set/lp/2/APhase2
 		openWB/lp/2/APhase3 -> openWB/set/lp/2/APhase3
 	evu
-		openWB/evu/W - >         openWB/set/evu/W
+		openWB/evu/W 	   -> openWB/set/evu/W
 		openWB/evu/VPhase1 -> openWB/set/evu/VPhase1
 		openWB/evu/VPhase2 -> openWB/set/evu/VPhase2
 		openWB/evu/VPhase3 -> openWB/set/evu/VPhase3
@@ -72,9 +72,9 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 		openWB/evu/WhImported -> openWB/set/evu/WhImported
 		openWB/evu/WhExported -> openWB/set/evu/WhExported
 	wr1
-		openWB/pv/W - >  openWB/set/pv/
-		openWB/pv/WhCounter   -> openWB/set/pv/WhCounte
-		openWB/pv/1/WhCounter -> openWB/set/pv/1/WhCounte
+		openWB/pv/W 		-> openWB/set/pv/W
+		openWB/pv/WhCounter   	-> openWB/set/pv/WhCounte
+		openWB/pv/1/WhCounter 	-> openWB/set/pv/1/WhCounte
 		openWB/pv/DailyYieldKwh   -> openWB/pv/DailyYieldKw
 		openWB/pv/MonthlyYieldKwh -> openWB/pv/MonthlyYieldKw
 		openWB/pv/YearlyYieldKwh  -> openWB/pv/YearlyYieldKw
