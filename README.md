@@ -65,6 +65,9 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 		openWB/evu/APhase1 -> openWB/set/evu/APhase1
 		openWB/evu/APhase2 -> openWB/set/evu/APhase2
 		openWB/evu/APhase3 -> openWB/set/evu/APhase3
+		openWB/evu/WPhase1 -> openWB/evu/WPhase1
+		openWB/evu/WPhase2 -> openWB/evu/WPhase2
+		openWB/evu/WPhase3 -> openWB/evu/WPhase3
 		openWB/evu/Hz      -> openWB/set/evu/HzFrequenz
 		openWB/evu/WhImported -> openWB/set/evu/WhImported
 		openWB/evu/WhExported -> openWB/set/evu/WhExported
