@@ -103,6 +103,11 @@ def getmodules():
 	print(  'ev:' , C.readval('evsecon'))
 	modules=[]
 	debug=int(C.readval('debug'))
+	if C.readval('verbraucher1_aktiv') == '0':
+		if( debug>1):
+			print (time.ctime() + ':verbraucher 1 inaktive')
+		return
+	
 	if C.readval('evsecon') == 'mqttevse':
 		modules.append('ev1')
 	if C.readval('ladeleistungmodul') == 'mqttll':   
@@ -159,13 +164,16 @@ def getsolltokens():
 		srcsolltokens.append(['openWB/lp/2/APhase2',   	'openWB/set/lp/2/APhase2'] ) 
 		srcsolltokens.append(['openWB/lp/2/APhase3',   	'openWB/set/lp/2/APhase3'] )
 	if 'evu' in modules:
-		srcsolltokens.append(['openWB/evu/W', 	   	  'openWB/set/evu/W'] ) 
+		srcsolltokens.append(['openWB/evu/W',  'openWB/set/evu/W'] ) 
 		srcsolltokens.append(['openWB/evu/VPhase1',   'openWB/set/evu/VPhase1'] ) 
 		srcsolltokens.append(['openWB/evu/VPhase2',   'openWB/set/evu/VPhase2'] ) 
 		srcsolltokens.append(['openWB/evu/VPhase3',   'openWB/set/evu/VPhase3'] ) 
 		srcsolltokens.append(['openWB/evu/APhase1',   'openWB/set/evu/APhase1'] ) 
 		srcsolltokens.append(['openWB/evu/APhase2',   'openWB/set/evu/APhase2'] ) 
 		srcsolltokens.append(['openWB/evu/APhase3',   'openWB/set/evu/APhase3'] )
+		srcsolltokens.append(['openWB/evu/WPhase1',   'openWB/evu/WPhase1'] ) 
+		srcsolltokens.append(['openWB/evu/WPhase2',   'openWB/evu/WPhase2'] ) 
+		srcsolltokens.append(['openWB/evu/WPhase3',   'openWB/evu/WPhase3'] ) 
 		srcsolltokens.append(['openWB/evu/Hz',        'openWB/set/evu/HzFrequenz'] )
 		srcsolltokens.append(['openWB/evu/WhImported','openWB/set/evu/WhImported'] )
 		srcsolltokens.append(['openWB/evu/WhExported','openWB/set/evu/WhExported'] )
@@ -187,9 +195,11 @@ def getsolltokens():
 	if 'evsoc1' in modules:
 		srcsolltokens.append(['openWB/lp/1/%Soc', 		  'openWB/set/lp/1/%Soc'] )
 		srcsolltokens.append(['openWB/lp/1/socKM', 		  'openWB/set/lp/1/socKM'] )
+		srcsolltokens.append(['openWB/lp/1/socRange', 	  'openWB/set/lp/1/socRange'] )
 	if 'evsoc2' in modules:
 		srcsolltokens.append(['openWB/lp/2/%Soc', 		  'openWB/set/lp/2/%Soc'] )
 		srcsolltokens.append(['openWB/lp/2/socKM', 		  'openWB/set/lp/2/socKM'] )
+		srcsolltokens.append(['openWB/lp/2/socRange', 	  'openWB/set/lp/2/socRange'] )
 
 
 
@@ -312,9 +322,13 @@ def on_submessage(client, userdata, msg):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/lp/1/socKM" ,"openWB/set/lp/1/socKM"):
        pubclient.loop(timeout=2.0)
+    elif handled( "openWB/lp/1/socRange" ,"openWB/set/lp/1/socRange"):
+       pubclient.loop(timeout=2.0)
     elif handled( "openWB/lp/2/%Soc"  ,"openWB/set/lp/2/%Soc"):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/lp/2/socKM" ,"openWB/set/lp/2/socKM"):
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/lp/2/socRange" ,"openWB/set/lp/2/socRange"):
        pubclient.loop(timeout=2.0)
        
     #
@@ -389,6 +403,12 @@ def on_submessage(client, userdata, msg):
     elif handled( "openWB/evu/APhase2" ,"openWB/set/evu/APhase2"):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/evu/APhase3" ,"openWB/set/evu/APhase3"):
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/evu/WPhase1" ,"openWB/evu/WPhase1"):
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/evu/WPhase2" ,"openWB/evu/WPhase2"):
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/evu/WPhase3" ,"openWB/evu/WPhase3"):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/evu/Hz" , "openWB/set/evu/HzFrequenz"):
        pubclient.loop(timeout=2.0)
