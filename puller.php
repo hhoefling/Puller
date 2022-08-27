@@ -17,8 +17,11 @@ function getopenwbconfig($fn)
 // prepare key/value array
     $settingsArray = [];
     $settingsArray['socmodul']='';
+    $settingsArray['socmodul1']='';
     $settingsArray['evsecon']='';
+    $settingsArray['evsecon1']='';
     $settingsArray['ladeleistungmodul']='';
+    $settingsArray['ladeleistungmodul1']='';
     $settingsArray['wattbezugmodul']='';
     $settingsArray['pvwattmodul']='';
     $settingsArray['pvwattmodul2']='';
