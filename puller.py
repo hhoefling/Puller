@@ -103,7 +103,7 @@ def getmodules():
 	modules=[]
 	if C.readval('evsecon') == 'mqttevse':
 		modules.append('ev1')
-	if C.readval('ladeleistungmodul') == 'httpll':    # iimmmer dabei, hier haengt der puller dran
+	if C.readval('ladeleistungmodul') == 'mqttll':   
 		modules.append('evll1')
 	if C.readval('socmodul') == 'soc_mqtt':
 		modules.append('evsoc1')
