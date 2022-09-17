@@ -31,9 +31,11 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 	lp1 
 		openWB/lp/1/boolPlugStat   -> openWB/set/lp/1/plugStat
 		openWB/lp/1/boolChargeStat -> openWB/set/lp/1/chargeStat
+		Beim änderungen an diesen Topics des Masters wird im Clienten der faultstate zurückgesetzt
 	lp2
 		openWB/lp/2/boolPlugStat   -> openWB/set/lp/2/plugStat
 		openWB/lp/2/boolChargeStat -> openWB/set/lp/2/chargeStat
+		Beim änderungen an diesen Topics des Masters wird im Clienten der faultstate zurückgesetzt
 	ll1
 		openWB/lp/1/ChargePointEnabled  -> openWB/set/lp/1/ChargePointEnabled
 		openWB/lp/1/W 		-> openWB/set/lp/1/W
@@ -56,20 +58,23 @@ Alle Module die jetzt als Type "MQTT" beim Clienten eingetragen wurden, bekommen
 		openWB/lp/2/APhase2 -> openWB/set/lp/2/APhase2
 		openWB/lp/2/APhase3 -> openWB/set/lp/2/APhase3
 	evu
-		openWB/evu/W - >         openWB/set/evu/W
+		openWB/evu/W 	   -> openWB/set/evu/W
 		openWB/evu/VPhase1 -> openWB/set/evu/VPhase1
 		openWB/evu/VPhase2 -> openWB/set/evu/VPhase2
 		openWB/evu/VPhase3 -> openWB/set/evu/VPhase3
 		openWB/evu/APhase1 -> openWB/set/evu/APhase1
 		openWB/evu/APhase2 -> openWB/set/evu/APhase2
 		openWB/evu/APhase3 -> openWB/set/evu/APhase3
+		openWB/evu/WPhase1 -> openWB/evu/WPhase1
+		openWB/evu/WPhase2 -> openWB/evu/WPhase2
+		openWB/evu/WPhase3 -> openWB/evu/WPhase3
 		openWB/evu/Hz      -> openWB/set/evu/HzFrequenz
 		openWB/evu/WhImported -> openWB/set/evu/WhImported
 		openWB/evu/WhExported -> openWB/set/evu/WhExported
 	wr1
-		openWB/pv/W - >  openWB/set/pv/
-		openWB/pv/WhCounter   -> openWB/set/pv/WhCounte
-		openWB/pv/1/WhCounter -> openWB/set/pv/1/WhCounte
+		openWB/pv/W 		-> openWB/set/pv/W
+		openWB/pv/WhCounter   	-> openWB/set/pv/WhCounte
+		openWB/pv/1/WhCounter 	-> openWB/set/pv/1/WhCounte
 		openWB/pv/DailyYieldKwh   -> openWB/pv/DailyYieldKw
 		openWB/pv/MonthlyYieldKwh -> openWB/pv/MonthlyYieldKw
 		openWB/pv/YearlyYieldKwh  -> openWB/pv/YearlyYieldKw

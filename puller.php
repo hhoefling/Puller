@@ -16,6 +16,18 @@ function getopenwbconfig($fn)
   
 // prepare key/value array
     $settingsArray = [];
+    $settingsArray['socmodul']='';
+    $settingsArray['socmodul1']='';
+    $settingsArray['evsecon']='';
+    $settingsArray['evsecon1']='';
+    $settingsArray['ladeleistungmodul']='';
+    $settingsArray['ladeleistungmodul1']='';
+    $settingsArray['wattbezugmodul']='';
+    $settingsArray['pvwattmodul']='';
+    $settingsArray['pvwattmodul2']='';
+    $settingsArray['speichermodul']='';
+  
+  
     try {
 		  if ( !file_exists($fn) ) {
 		  	throw new Exception('Konfigurationsdatei nicht gefunden.');
@@ -123,6 +135,12 @@ function getopenwbconfig($fn)
             exec("sudo -u pi python3 ./puller.py $pullfrom >/var/www/html/openWB/ramdisk/puller.log 2>&1 &", $output, $retval);
             if ($debug>2) 
                 logf(print_r($output,true));
+
+            unset($output);
+            exec("sudo chmod 0777 /var/www/html/openWB/ramdisk/puller.log", $output, $retval);
+            if ($debug>2) 
+                logf(print_r($output,true));
+
         } else
         {
            logf("puller allready running.");
