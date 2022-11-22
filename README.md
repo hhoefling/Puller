@@ -3,7 +3,7 @@ Mqtt Puller für openWB_Lite (und original openWB)
 
 Diese Project stellt eine Hilfsfunktion bereit die beim testen der openWB[_lite] verwendet werden kann.
 Sie dient dazu das die zu testende OpenWB teilweise einer Master-OpenWB folgt, statt alles selbst zu erledigen.
-Bei den EVU/WR/BAT Modulen ginge das ja, aber ein Angeschlossenen Auto und den Ladeleistungs-Zähler der original Wallbox kann man nicht so einfach abfragen.
+Bei den EVU/WR/BAT Modulen ginge das ja über MQTT, aber ein Angeschlossenen Auto und den Ladeleistungs-Zähler der original Wallbox kann man nicht so einfach abfragen.
 Das Module liegt bewust ausserhalb des openWB Verzeichnisbaumes. Auf diese Weise wird es bei Updates der openWB nicht entfernt und kann auch mit der Original openWB Software zusammen benutzt werden.
 
 Vorgehen:
@@ -20,7 +20,7 @@ Bei der zu steuerernden openWB (Client) ist folgendes einzustellen:
 - URL Zählerstand: http://url   (unbenutzt)
 
 Die Parameter bedeuten:
--  http://192.168.x.x/puller/puller.php Dort ist das Script abgelegt. Es muss auf dem "Clienten"' installiert werden.
+-  ##http://192.168.x.x/puller/puller.php## Dort ist das Script abgelegt. Es muss auf dem "Clienten"' installiert werden.
 -  pullfrom=192.168.y.y  IP Adresse der "Master" openWB, also die Quelle der MQTT-Daten
 -  pull=lp1,ll1,soc1,lp2,ll2,soc2,evu,wr1,bat Liste von Modulen die unterstütz werden sollen. Hier alle.
 
