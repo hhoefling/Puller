@@ -19,7 +19,7 @@ function getopenwbconfig($fn)
     $settingsArray['socmodul']='';
     $settingsArray['socmodul1']='';
     $settingsArray['evsecon']='';
-    $settingsArray['evsecon1']='';
+    $settingsArray['evsecons1']='';
     $settingsArray['ladeleistungmodul']='';
     $settingsArray['ladeleistungmodul1']='';
     $settingsArray['wattbezugmodul']='';
@@ -99,7 +99,7 @@ function getopenwbconfig($fn)
      if( $settingsArray['lastmanagement'] > 0 )
      {
       if( $mods['lp2']  &&   $settingsArray['evsecons1'] != 'mqttevse' ) $mods['lp2']=0;  
-      if( $mods['ll2']  &&   $settingsArray['ladeleistungs1modul'] != 'mqttlllp2' ) $mods['ll2']=0;
+      if( $mods['ll2']  &&   $settingsArray['ladeleistungmodul1'] != 'mqttlllp2' ) $mods['ll2']=0;
       if( $mods['soc2'] &&   $settingsArray['socmodul1'] != 'soc_mqtt' ) $mods['soc2']=0;
      } else
      {
