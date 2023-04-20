@@ -8,6 +8,39 @@ function logf($s)
  error_log("$s\n", 3, "/var/www/html/puller/puller.log");
 } 
  
+function stoppuller()
+{
+ global $debug;
+ 
+ unset($output);
+ exec("ps -aux | grep -v grep | grep [p]uller.py | awk '{print $2}' ", $output, $retval);
+ if($debug>2) logf(print_r($output,true));
+ foreach($output as $pid)
+    {
+        $pid=intval($pid);
+        if($pid>0 )
+        {
+         unset($output);
+         exec("sudo kill $pid",$output, $retval);
+         if($debug>2) logf('kill '.print_r($output, true));
+        }
+   }
+}
+
+function startpuller()
+{
+   global $pullfrom,$debug;
+  
+    unset($output);
+    exec("sudo -u pi python3 ./puller.py $pullfrom >/var/www/html/openWB/ramdisk/puller.log 2>&1 &", $output, $retval);
+    if ($debug>2) 
+        logf(print_r($output,true));
+
+    unset($output);
+    exec("sudo chmod 0777 /var/www/html/openWB/ramdisk/puller.log", $output, $retval);
+    if ($debug>2) 
+        logf(print_r($output,true));
+} 
  
 function getopenwbconfig($fn)
 {
@@ -124,44 +157,32 @@ function getopenwbconfig($fn)
     #$sum=0;
     if($sum>0)
     {
-        logf(" $sum aktiver module, starte Pull Daemon");
+        logf(" $sum aktiver module, needs Pull Daemon");
         unset($output);
         exec("ps -aux | grep -v grep | grep [p]uller.py | awk '{print $2}' ", $output, $retval);
         if($debug>2) logf(print_r($output,true));
         if( count($output)==0)
         {
            logf(" no activ puller, start one");
-            unset($output);
-            exec("sudo -u pi python3 ./puller.py $pullfrom >/var/www/html/openWB/ramdisk/puller.log 2>&1 &", $output, $retval);
-            if ($debug>2) 
-                logf(print_r($output,true));
-
-            unset($output);
-            exec("sudo chmod 0777 /var/www/html/openWB/ramdisk/puller.log", $output, $retval);
-            if ($debug>2) 
-                logf(print_r($output,true));
-
+           startpuller();
         } else
         {
            logf("puller allready running.");
+           // check for stalled
+            unset($output);
+            exec("find /var/www/html/openWB/ramdisk -mmin +1 -name puller.log " , $output, $retval);
+            if( count($output)>0 )
+                {
+                    logf('WARNING puller.log in openwWB/ramdisk stalled!!  restart puller');
+                    stoppuller();
+                    startpuller();
+                }
         }
     }
     else
     {
         logf(" keine aktiven module, Stoppe Pulll Daemon");
-        unset($output);
-        exec("ps -aux | grep -v grep | grep [p]uller.py | awk '{print $2}' ", $output, $retval);
-        if($debug>2) logf(print_r($output,true));
-        foreach($output as $pid)
-        {
-          $pid=intval($pid);
-          if($pid>0 )
-            {
-               unset($output);
-               exec("sudo kill $pid",$output, $retval);
-               logf('kill '.print_r($output, true));
-            }
-        }
+        stoppuller();
     }
 
     
