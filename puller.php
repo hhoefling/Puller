@@ -27,19 +27,31 @@ function stoppuller()
    }
 }
 
+function getruntimepuller()
+{
+   global $debug;
+
+    unset($output);
+    exec("ps -o etimes= -p $(pgrep -f '^python3.*puller.py')", $output, $retval);
+    if ($debug>2) logf(print_r($output,true));
+
+   if( count($output)==1 )
+        return trim($output[0])*1;
+   else return 0;              
+}
+
+
 function startpuller()
 {
    global $pullfrom,$debug;
   
     unset($output);
     exec("sudo -u pi python3 ./puller.py $pullfrom >/var/www/html/openWB/ramdisk/puller.log 2>&1 &", $output, $retval);
-    if ($debug>2) 
-        logf(print_r($output,true));
+    if ($debug>2) logf(print_r($output,true));
 
     unset($output);
     exec("sudo chmod 0777 /var/www/html/openWB/ramdisk/puller.log", $output, $retval);
-    if ($debug>2) 
-        logf(print_r($output,true));
+    if ($debug>2) logf(print_r($output,true));
 } 
  
 function getopenwbconfig($fn)
@@ -92,8 +104,7 @@ function getopenwbconfig($fn)
 		$msg = $e->getMessage();
 		logf("$msg");
 	}	
-    if ($debug>2) 
-       logf( print_r($settingsArray, true) );
+    if ($debug>2) logf( print_r($settingsArray, true) );
     return $settingsArray;
 }
 
@@ -125,10 +136,9 @@ function getopenwbconfig($fn)
     foreach( $pullx as $p) 
         $mods[$p]=1;
         
-    if ($debug>2) 
-        logf( print_r($mods,true) );
+    if ($debug>2) logf( print_r($mods,true) );
 
-    logf("pullfrom:$pullfrom pull:$pull");
+    if($debug>2)  logf("pullfrom:$pullfrom pull:$pull");
      if( $settingsArray['lastmanagement'] > 0 )
      {
       if( $mods['lp2']  &&   $settingsArray['evsecons1'] != 'mqttevse' ) $mods['lp2']=0;  
@@ -148,8 +158,7 @@ function getopenwbconfig($fn)
      if( $mods['wr2']  &&   $settingsArray['pvwattmodul2'] != 'wr_mqtt2' ) $mods['wr2']=0;
      if( $mods['bat']  &&   $settingsArray['speichermodul'] != 'speicher_mqtt' ) $mods['bat']=0;
   
-    if ($debug>2) 
-       logf( print_r($mods,true) );
+    if ($debug>2) logf( print_r($mods,true) );
     $sum=0;
     foreach($mods as $m)
         if($m==1) 
@@ -157,23 +166,36 @@ function getopenwbconfig($fn)
     #$sum=0;
     if($sum>0)
     {
-        logf(" $sum aktiver module, needs Pull Daemon");
-        unset($output);
-        exec("ps -aux | grep -v grep | grep [p]uller.py | awk '{print $2}' ", $output, $retval);
-        if($debug>2) logf(print_r($output,true));
-        if( count($output)==0)
+        if($debug>2)  logf(" $sum aktiver module, needs Pull Daemon");
+        
+        $runs=getruntimepuller();       # 0 if not running
+        $runstd=intdiv($runs,3600);                
+        $runmin=intdiv( ($runs-($runstd*3600))  , 60);
+        $runsec=$runs-($runstd*3600) - ($runmin*60);
+        
+        if ($runs==0)
         {
            logf(" no activ puller, start one");
            startpuller();
         } else
         {
-           logf("puller allready running.");
+           if($debug>2) logf("puller allready running. " .$runstd . " Std " . $runmin.' Min '. $runsec . ' Sec') ;
            // check for stalled
             unset($output);
+            # check if logfile is more than 1 minut old (aka not written since)
             exec("find /var/www/html/openWB/ramdisk -mmin +1 -name puller.log " , $output, $retval);
             if( count($output)>0 )
                 {
                     logf('WARNING puller.log in openwWB/ramdisk stalled!!  restart puller');
+                    stoppuller();
+                    startpuller();
+                }
+                
+            //if ( $runstd >= 1)
+            if ( $runmin >= 23)
+                {
+                    logf("puller running. " .$runstd . " Std " . $runmin.' Min '. $runsec . ' Sec') ;
+                    logf("Max Runtime reachd, restart puller to give logrotate a change");
                     stoppuller();
                     startpuller();
                 }
