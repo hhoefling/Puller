@@ -5,7 +5,8 @@
    
 function logf($s)
 {
- error_log("$s\n", 3, "/var/www/html/puller/puller.log");
+ $d=date("Y-m-d h:i:s",time());
+ error_log("$d $s\n", 3, "/var/www/html/puller/puller.log");
 } 
  
 function stoppuller()
@@ -191,8 +192,8 @@ function getopenwbconfig($fn)
                     startpuller();
                 }
                 
-            //if ( $runstd >= 1)
-            if ( $runmin >= 23)
+            if ( $runstd >= 6)
+            //if ( $runmin >= 23)
                 {
                     logf("puller running. " .$runstd . " Std " . $runmin.' Min '. $runsec . ' Sec') ;
                     logf("Max Runtime reachd, restart puller to give logrotate a change");
