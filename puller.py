@@ -189,9 +189,16 @@ def getsolltokens():
 		srcsolltokens.append(['openWB/housebattery/WhExported', 'openWB/set/houseBattery/WhExported'])
 		srcsolltokens.append(['openWB/housebattery/%Soc',       'openWB/set/houseBattery/%Soc'])
 		srcsolltokens.append(['openWB/housebattery/soctarget',  'openWB/housebattery/soctarget'])
+		srcsolltokens.append(['openWB/housebattery/socP5',  'openWB/housebattery/socP5'])
+		srcsolltokens.append(['openWB/housebattery/socP7',  'openWB/housebattery/socP7'])
+		srcsolltokens.append(['openWB/housebattery/socFixLoad',  'openWB/housebattery/socFixLoad'])
 		srcsolltokens.append(['openWB/housebattery/faultState', 'openWB/set/houseBattery/faultState'])
 		srcsolltokens.append(['openWB/housebattery/faultStr',   'openWB/set/houseBattery/faultStr'])
 		srcsolltokens.append(['openWB/housebattery/W',          'openWB/set/houseBattery/W'])
+		srcsolltokens.append(['openWB/housebattery/loadWatt',   'openWB/housebattery/loadWatt'])
+		srcsolltokens.append(['openWB/housebattery/discharge_max',   'openWB/housebattery/discharge_max'])
+		srcsolltokens.append(['openWB/housebattery/socP5',   'openWB/set/houseBattery/socP5'])
+		srcsolltokens.append(['openWB/housebattery/socP7',   'openWB/set/houseBattery/socP7'])
 	if 'evsoc1' in modules:
 		srcsolltokens.append(['openWB/lp/1/%Soc', 		  'openWB/set/lp/1/%Soc'] )
 		srcsolltokens.append(['openWB/lp/1/socKM', 		  'openWB/set/lp/1/socKM'] )
@@ -338,15 +345,25 @@ def on_submessage(client, userdata, msg):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/housebattery/WhExported" ,"openWB/set/houseBattery/WhExported"):
        pubclient.loop(timeout=2.0)
-    elif handled( "openWB/housebattery/%Soc" ,"openWB/set/houseBattery/%Soc"):
+    elif handled( "openWB/housebattery/%Soc" ,"openWB/set/houseBattery/%Soc"):   # ohne set!!
        pubclient.loop(timeout=2.0)
-    elif handled( "openWB/housebattery/soctarget" ,"openWB/housebattery/soctarget"):
+    elif handled( "openWB/housebattery/soctarget" ,"openWB/housebattery/soctarget"):  # ohne set!!
        pubclient.loop(timeout=2.0)
+    elif handled( "openWB/housebattery/socP5" ,"openWB/housebattery/socP5"):    # ohne set!!
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/housebattery/socP7" ,"openWB/housebattery/socP7"):    # ohne set!!
+       pubclient.loop(timeout=2.0)
+#    elif handled( "openWB/housebattery/socFixLoad" ,"openWB/housebattery/socFixLoad"):  # ohne set!!
+#       pubclient.loop(timeout=2.0)
     elif handled( "openWB/housebattery/faultState" ,"openWB/set/houseBattery/faultState"):
        pubclient.loop(timeout=2.0)
     elif handled( "openWB/housebattery/faultStr" , "openWB/set/houseBattery/faultStr"):
        pubclient.loop(timeout=2.0)
-    elif handled( "openWB/housebattery/W" , "openWB/set/houseBattery/W"):
+    elif handled( "openWB/housebattery/W" , "openWB/set/houseBattery/W"):   # ohne set!!
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/housebattery/loadWatt" , "openWB/housebattery/loadWatt"): # ohne set!!
+       pubclient.loop(timeout=2.0)
+    elif handled( "openWB/housebattery/discharge_max" , "openWB/housebattery/discharge_max"):   # ohne set!!
        pubclient.loop(timeout=2.0)
     #
     # PV Module
